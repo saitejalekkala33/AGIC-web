@@ -1,11 +1,6 @@
 // Smooth scrolling behavior
 document.documentElement.style.scrollBehavior = 'smooth';
 
-// Menu button functionality (can be expanded for mobile menu)
-document.getElementById('menuBtn').addEventListener('click', function() {
-    // Add your menu functionality here
-    alert('Menu clicked! You can expand this to show a navigation menu.');
-});
 
 // Copy citation function
 function copyCitation() {
