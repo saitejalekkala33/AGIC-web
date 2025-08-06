@@ -1,24 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>magic-static-clone</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGIC: Attention-Guided Image Captioning</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <button class="menu-btn" id="menuBtn">☰</button>
+        </div>
+    </nav>
 
-    <meta property="og:title" content="magic-static-clone" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <img src="img1.jpg" alt="Research visualization" class="hero-image">
+        </div>
 
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-  </head>
+        <!-- Title Section -->
+        <header class="title-section">
+            <h1 class="main-title">
+                <span class="agic-text">AGIC:</span>Attention-Guided Image Captioning to Improve Caption Relevance
+            </h1>
+            
+            <div class="authors">
+                <span class="author">L D M S Sai Teja<sup>1</sup></span>
+                <a href="https://ashokurlana.github.io/" class="author-link">Ashok Urlana <sup>2,3</sup></a>
+                <a href="https://pruthwik.github.io/" class="author-link">Pruthwik Mishra<sup>4</sup></a>
+            </div>
+            
+            <div class="affiliations">
+                <span><sup>1</sup> NIT Silchar • <sup>2</sup> TCS Research • <sup>3</sup> IIIT Hyderabad • <sup>4</sup> SVNIT, Surat</span>
+            </div>
+            
+            <div class="links-section">
+                <button class="btn paper-btn" onclick="window.open('#', '_blank')">📄 Paper</button>
+                <button class="btn code-btn" onclick="window.open('https://github.com/saitejalekkala33/AGIC-code.git', '_blank')">🔗 Code</button>
+            </div>
+        </header>
 
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+        <!-- Abstract Section -->
+        <section class="content-section">
+            <h2>Abstract</h2>
+            <p>Despite significant progress in image captioning, generating accurate and descriptive captions remains a long-standing challenge. In this study, we propose Attention-Guided Image Captioning (AGIC), which amplifies salient visual regions directly in the feature space to guide caption generation. We further introduce a hybrid decoding strategy that combines deterministic and probabilistic sampling to balance fluency and diversity. To evaluate AGIC, we conduct extensive experiments on the Flickr8k and Flickr30k datasets. The results show that AGIC matches or surpasses several state-of-the-art models while achieving faster inference. Moreover, AGIC demonstrates strong performance across multiple evaluation metrics, offering a scalable and interpretable solution for image captioning.</p>
+        </section>
+
+        <!-- Example Comparison -->
+        <section class="content-section">
+            <div class="example-section">
+                <img src="img2.jpg" alt="Paper example illustration" class="example-image">
+                
+                <div class="comparison-results">
+                    <div class="result-item llava">
+                        <strong>LlaVA:</strong> Two little girls are playing with bubbles in the park.
+                    </div>
+                    <div class="result-item qwen">
+                        <strong>Qwen:</strong> Two young friends share a joyful moment, creating a world of bubbles in the park.
+                    </div>
+                    <div class="result-item fuyu">
+                        <strong>Fuyu:</strong> Two little girls blowing bubbles in the park.
+                    </div>
+                    <div class="result-item brnn">
+                        <strong>BRNN:</strong> Two girls playing in the park.
+                    </div>
+                    <div class="result-item lstnet">
+                        <strong>LSTNet:</strong> A young girl is blowing bubbles, holding them in her hands.
+                    </div>
+                    <div class="result-item r2m">
+                        <strong>R²M:</strong> Two young girls playing with bubbles in grass.
+                    </div>
+                    <div class="result-item agic">
+                        <strong>AGIC:</strong> Two young girls wearing floral dress blowing bubbles in a park covered with grass.
+                    </div>
+                </div>
+                
+                <p class="figure-caption">Figure 1: Comparison of various image caption generation models. <span class="red">red: zero-shot</span>, <span class="cyan">cyan: supervised</span>, <span class="violet">violet: unsupervised approaches</span> and <span class="blue">blue: our approach</span>.</p>
+            </div>
+        </section>
+
+        <!-- Method Section -->
+        <section class="content-section">
+            <h2>Method</h2>
+            <p>In the AGIC framework, input images are processed by a pre-trained vision transformer to extract attention weights that highlight semantically relevant regions. Let X<sub>l−1</sub> ∈ ℝ<sup>N × d</sup> denote the patch embeddings at layer l−1. The attention matrix A<sub>l,h</sub> at layer l and head h is computed using the query and key projection matrices W<sup>Q</sup><sub>l,h</sub> and W<sup>K</sup><sub>l,h</sub>, with d<sub>h</sub> as the head dimension. Attention weights a<sub>i</sub><sup>l</sup> are then aggregated across all heads at layer l to capture comprehensive contextual relevance.</p>
+            
+            <div class="equation">
+                A<sub>l,h</sub> = softmax(( (X<sub>l−1</sub>W<sup>Q</sup><sub>l,h</sub>)(X<sub>l−1</sub>W<sup>K</sup><sub>l,h</sub>)<sup>T</sup>/ √d<sub>h</sub>))a<sub>i</sub><sup>l</sup> = (1 / H) ∑<sub>h=1</sub><sup>H</sup> A<sub>i</sub><sup>l,h</sup>
+            </div>
+            
+            <p>To highlight important image features, we amplify the original image using attention weights with a factor <em>k</em>, where each pixel I<sub>a</sub>(i,j) is computed by multiplying the original value I<sub>o</sub>(i,j) with attention weight a(i,j). The amplified image I<sub>a</sub> is then passed into the captioning model for focused descriptions. To enhance diversity and fluency in caption generation, we use a hybrid decoding strategy combining beam search with Top-k, Top-p sampling, and temperature scaling. Tokens are sampled from a temperature-scaled softmax and filtered via Top-k and Top-p independently within each of the B beams, enabling the model to generate detailed and contextually rich captions.</p>
+            
+            <div class="equation">
+                I<sub>a</sub>(i,j) = I<sub>o</sub>(i,j) · (1 + k · a(i,j))x<sub>t</sub> ~ Top-p(Top-k(Softmax(z<sub>t</sub> / T)))
+            </div>
+        </section>
+
+        <!-- Diagrams Section -->
+        <section class="content-section">
+            <h2>Diagrams</h2>
+            
+            <h3>AGIC Pipeline</h3>
+            <div class="diagram-container">
+                <img src="img3.png" alt="AGIC Workflow" class="diagram-image">
+                <p class="figure-caption">Figure 2: The Attention-Guided Image Captioning (AGIC) pipeline illustrating attention modules, encoder-decoder flow, and semantic grounding.</p>
+            </div>
+            
+            <h3>Inference Time</h3>
+            <div class="diagram-container">
+                <img src="img4.jpg" alt="Inference Time Comparison" class="diagram-image">
+                <p class="figure-caption">Figure 3: Comparative analysis of inference time across zero-shot, supervised, and unsupervised captioning frameworks.</p>
+            </div>
+        </section>
+
+        <!-- Error Analysis Section -->
+        <section class="content-section">
+            <h2>Error Analysis</h2>
+            <p>We conduct a detailed error analysis by manually examining four aspects: hallucination, omission, irrelevance, and ambiguity. While AGIC generally improves caption relevance, our analysis reveals that it occasionally omits salient objects present in the image and tends to hallucinate on Flickr30k data samples. These observations highlight areas for further refinement. Error analysis is conducted on 50 images from each dataset.</p>
+            
+            <div class="diagram-container">
+                <img src="img5.png" alt="Error Analysis" class="diagram-image">
+                <p class="figure-caption">Figure 4: Qualitative error analysis of image captions generated by the AGIC model compared to ground truth (GT) descriptions. Each example highlights a specific type of error: hallucination, omission, irrelevance, vagueness, and ambiguity. One example demonstrates a correct caption with no notable issues.</p>
+            </div>
+            
+            <div class="tables-container">
+                <table class="error-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Hallucination</th>
+                            <th>Omission</th>
+                            <th>Irrelevance</th>
+                            <th>Ambiguity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Flickr8k</strong></td>
+                            <td>7</td>
+                            <td>12</td>
+                            <td>3</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flickr30k</strong></td>
+                            <td>11</td>
+                            <td>14</td>
+                            <td>3</td>
+                            <td>4</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="table-caption">Table 1: Error analysis of AGIC model on 50 image samples from both Datasets.</p>
+                
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Relevancy</th>
+                            <th>Correctness</th>
+                            <th>Completion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Flickr8k</strong></td>
+                            <td>0.80</td>
+                            <td>0.86</td>
+                            <td>0.75</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Flickr30k</strong></td>
+                            <td>0.77</td>
+                            <td>0.77</td>
+                            <td>0.88</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="table-caption">Table 2: Human Evaluation of AGIC: Inter rater reliability (ICC) by two human annotators.</p>
+            </div>
+        </section>
+
+        <!-- Citation Section -->
+        <section class="content-section">
+            <h2>Citation</h2>
+            <div class="citation-container">
+                <button class="copy-btn" onclick="copyCitation()">Copy</button>
+                <pre class="citation-text" id="citationText">@misc{teja2025agic,
+    author = "Teja, L D M S Sai and Urlana, Ashok and Mishra, Pruthwik",
+    title = "{AGIC}: Attention-Guided Image Captioning to Improve Caption Relevance",
+    note = "arXiv preprint arXiv:2508.XXXXX",
+    year = "2025",
+    url = "https://arxiv.org/abs/2508.XXXXX"
+}</pre>
+            </div>
+        </section>
+    </div>
+
+    <!-- Scroll to top button -->
+    <button class="scroll-top" id="scrollTop" onclick="scrollToTop()">↑</button>
+
+    <script src="script.js"></script>
+</body>
 </html>
